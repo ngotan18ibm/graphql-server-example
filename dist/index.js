@@ -10,6 +10,7 @@ const typeDefs = `#graphql
   type Book {
     title: String
     author: String
+    version:[ver!]!
   }
 
   # The "Query" type is special: it lists all of the available queries that
@@ -18,15 +19,23 @@ const typeDefs = `#graphql
   type Query {
     books: [Book]
   }
+
+  enum ver {
+  LATEST,
+  OLD,
+  COMING_SOON,
+}
 `;
 const books = [
     {
         title: 'Wow Bhai',
         author: 'Kate Chopin',
+        version: ['LATEST']
     },
     {
         title: 'City of Glass',
         author: 'Paul Auster',
+        version: ['COMING_SOON']
     },
 ];
 // Resolvers define how to fetch the types defined in your schema.

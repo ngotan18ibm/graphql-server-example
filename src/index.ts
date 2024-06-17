@@ -1,5 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { version } from 'os';
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -11,6 +12,7 @@ const typeDefs = `#graphql
   type Book {
     title: String
     author: String
+    version:[ver!]!
   }
 
   # The "Query" type is special: it lists all of the available queries that
@@ -19,16 +21,24 @@ const typeDefs = `#graphql
   type Query {
     books: [Book]
   }
+
+  enum ver {
+  LATEST,
+  OLD,
+  COMING_SOON,
+}
 `;
 
 const books = [
     {
       title: 'Wow Bhai',
       author: 'Kate Chopin',
+      version: ['LATEST']
     },
     {
       title: 'City of Glass',
       author: 'Paul Auster',
+      version: ['COMING_SOON']
     },
   ];
 
