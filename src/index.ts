@@ -11,8 +11,14 @@ const typeDefs = `#graphql
   # This "Book" type defines the queryable fields for every book in our data source.
   type Book {
     title: String
+    id: String!
     author: String
     version:[ver!]!
+  }
+
+  type Customer {
+    customer_name: String
+    books: [Book]
   }
 
   # The "Query" type is special: it lists all of the available queries that
@@ -20,6 +26,7 @@ const typeDefs = `#graphql
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
     books: [Book]
+    customers: [Customer]
   }
 
   enum ver {
@@ -29,15 +36,29 @@ const typeDefs = `#graphql
 }
 `;
 
-const books = [
+const customers = [
     {
-      title: 'Wow Bhai',
-      author: 'Kate Chopin',
-      version: ['LATEST']
+      customer_name: 'Ram',
+      books: ['786']
     },
     {
+        customer_name: 'Shyam',
+        books: ['199','786']
+    },
+  ];
+
+
+const books = [
+    {
+      id:'199',
+      title: 'Wow',
+      author: 'Kate',
+      version: ['LATEST','OLD']
+    },
+    {
+      id:'786',
       title: 'City of Glass',
-      author: 'Paul Auster',
+      author: 'Paul',
       version: ['COMING_SOON']
     },
   ];
@@ -47,7 +68,14 @@ const books = [
 const resolvers = {
     Query: {
       books: () => books,
+      customers: () => customers,
     },
+
+    Customer: {
+        books(parent) {
+            return [books.filter(book => book.id === parent.id)];
+        }
+    }
   };
 
 
